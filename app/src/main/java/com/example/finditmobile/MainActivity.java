@@ -1,9 +1,12 @@
 package com.example.finditmobile;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
+    private Button openChatButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +42,11 @@ public class MainActivity extends AppCompatActivity {
         // Drawer
         drawerLayout = findViewById(R.id.drawer_layout);
 
-        // Botão do menu na direita
         ImageButton menuButton = findViewById(R.id.menu_button);
         menuButton.setOnClickListener(v -> {
             drawerLayout.openDrawer(GravityCompat.END);
         });
 
-        // Menu lateral
         NavigationView navView = findViewById(R.id.nav_view);
         navView.setNavigationItemSelectedListener(item -> {
             drawerLayout.closeDrawer(GravityCompat.END);
@@ -55,6 +57,17 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Sobre selecionado", Toast.LENGTH_SHORT).show();
             }
             return true;
+        });
+
+        openChatButton = findViewById(R.id.openChatButton);
+
+        openChatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ChatbotActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
         });
     }
 }
