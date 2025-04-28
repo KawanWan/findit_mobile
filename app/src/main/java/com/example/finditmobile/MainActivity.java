@@ -1,9 +1,6 @@
 package com.example.finditmobile;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,8 +8,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -28,18 +23,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Configura Toolbar
-        Toolbar toolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(toolbar);
-
-        // Configura logo redimensionado
-        Drawable originalLogo = ContextCompat.getDrawable(this, R.drawable.findit_logo);
-        Bitmap bitmap = ((BitmapDrawable) originalLogo).getBitmap();
-        Bitmap resized = Bitmap.createScaledBitmap(bitmap, 84, 84, false);
-        Drawable resizedDrawable = new BitmapDrawable(getResources(), resized);
-        getSupportActionBar().setLogo(resizedDrawable);
-
-        // Drawer
         drawerLayout = findViewById(R.id.drawer_layout);
 
         ImageButton menuButton = findViewById(R.id.menu_button);
@@ -55,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Início selecionado", Toast.LENGTH_SHORT).show();
             } else if (id == R.id.menu_about) {
                 Toast.makeText(MainActivity.this, "Sobre selecionado", Toast.LENGTH_SHORT).show();
+            } else if (id == R.id.menu_login) {
+                Intent loginIntent = new Intent(MainActivity.this, ActivityLogin.class);
+                startActivity(loginIntent);
+            } else if (id == R.id.menu_signup) {
+                Intent signupIntent = new Intent(MainActivity.this, ActivityCadastro.class);
+                startActivity(signupIntent);
             }
             return true;
         });

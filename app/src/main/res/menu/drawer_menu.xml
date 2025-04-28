@@ -3,8 +3,19 @@
         android:id="@+id/menu_home"
         android:title="Início"
         android:icon="@android:drawable/ic_menu_view" />
+
     <item
         android:id="@+id/menu_about"
         android:title="Sobre"
         android:icon="@android:drawable/ic_menu_info_details" />
+
+    <item
+        android:id="@+id/menu_login"
+        android:title="Login"
+        android:icon="@android:drawable/ic_menu_send" />
+
+    <item
+        android:id="@+id/menu_signup"
+        android:title="Cadastro"
+        android:icon="@android:drawable/ic_menu_add" />
 </menu>
