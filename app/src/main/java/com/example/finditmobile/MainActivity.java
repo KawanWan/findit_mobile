@@ -39,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
             } else if (id == R.id.menu_about) {
                 Toast.makeText(MainActivity.this, "Sobre selecionado", Toast.LENGTH_SHORT).show();
             } else if (id == R.id.menu_login) {
-                Intent loginIntent = new Intent(MainActivity.this, ActivityLogin.class);
+                Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(loginIntent);
             } else if (id == R.id.menu_signup) {
-                Intent signupIntent = new Intent(MainActivity.this, ActivityCadastro.class);
+                Intent signupIntent = new Intent(MainActivity.this, CadastroActivity.class);
                 startActivity(signupIntent);
             }
             return true;
