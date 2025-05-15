@@ -18,4 +18,7 @@ public class ChatbotActivity extends AppCompatActivity {
         webView.getSettings().setDomStorageEnabled(true);
         webView.loadUrl("https://cdn.botpress.cloud/webchat/v2.3/shareable.html?configUrl=https://files.bpcontent.cloud/2025/04/23/00/20250423004551-80PHTR9Z.json");
     }
+
+    public static class ItensActivity {
+    }
 }

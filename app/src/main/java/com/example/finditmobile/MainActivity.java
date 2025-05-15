@@ -44,7 +44,17 @@ public class MainActivity extends AppCompatActivity {
             } else if (id == R.id.menu_signup) {
                 Intent signupIntent = new Intent(MainActivity.this, CadastroActivity.class);
                 startActivity(signupIntent);
+            } else if (id == R.id.menu_itens) {
+                Intent signupIntent = new Intent(MainActivity.this, ItensActivity.class);
+                startActivity(signupIntent);
+            } else if (id == R.id.menu_solicitacoes) {
+                Intent signupIntent = new Intent(MainActivity.this, SolicitacoesActivity.class);
+                startActivity(signupIntent);
+            } else if (id == R.id.menu_solicitar) {
+                Intent signupIntent = new Intent(MainActivity.this, SolicitarActivity.class);
+                startActivity(signupIntent);
             }
+
             return true;
         });
 

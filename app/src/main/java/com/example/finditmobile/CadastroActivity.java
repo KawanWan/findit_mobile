@@ -37,7 +37,7 @@ public class CadastroActivity extends AppCompatActivity {
         cadastrarBtn = findViewById(R.id.cadastrar_btn);
         extraLinks = findViewById(R.id.extra_links);
 
-        dbHelper = new DatabaseHelper(this);
+        dbHelper = new DatabaseHelper();
 
         cadastrarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,16 +92,16 @@ public class CadastroActivity extends AppCompatActivity {
 
         String senhaCriptografada = HashUtil.sha256(senha);
 
-        boolean sucesso = dbHelper.cadastrarUsuario(nome, email, senhaCriptografada, ra, whatsapp);
-
-        if (sucesso) {
-            Toast.makeText(this, "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(CadastroActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(this, "Erro ao cadastrar. Verifique se o email já foi usado!", Toast.LENGTH_LONG).show();
-        }
+        dbHelper.cadastrarUsuario(nome, email, senhaCriptografada, ra, whatsapp, task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(this, "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(CadastroActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(this, "Erro ao cadastrar. Verifique se o email já foi usado!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
     private boolean isValidPhoneNumber(String phone) {
         phone = phone.replaceAll("[^\\d]", "");

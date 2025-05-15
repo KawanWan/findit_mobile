@@ -18,4 +18,19 @@
         android:id="@+id/menu_signup"
         android:title="Cadastro"
         android:icon="@android:drawable/ic_menu_add" />
+
+    <item
+        android:id="@+id/menu_itens"
+        android:title="Itens"
+        android:icon="@android:drawable/ic_menu_add" />
+
+    <item
+        android:id="@+id/menu_solicitacoes"
+        android:title="Solicitações"
+        android:icon="@android:drawable/ic_menu_add" />
+
+    <item
+        android:id="@+id/menu_solicitar"
+        android:title="Perdi um Objeto"
+        android:icon="@android:drawable/ic_menu_add" />
 </menu>
