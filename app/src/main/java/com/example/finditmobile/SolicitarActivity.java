@@ -1,4 +1,6 @@
 package com.example.finditmobile;
 
-public class SolicitarActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class SolicitarActivity extends AppCompatActivity {
 }

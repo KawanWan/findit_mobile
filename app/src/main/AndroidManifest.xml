@@ -25,6 +25,10 @@
         <activity android:name=".ChatbotActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".CadastroActivity" />
+        <activity android:name=".ItensActivity" />
+        <activity android:name=".SolicitacoesActivity" />
+        <activity android:name=".SolicitarActivity" />
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

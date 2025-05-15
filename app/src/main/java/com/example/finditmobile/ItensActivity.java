@@ -1,4 +1,6 @@
 package com.example.finditmobile;
 
-public class ItensActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class ItensActivity extends AppCompatActivity {
 }
