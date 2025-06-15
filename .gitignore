@@ -13,3 +13,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+scripts
+node_modules
+scripts/serviceAccountKey.json
+scripts/setAdminClaim.js
+findit_mobile.git

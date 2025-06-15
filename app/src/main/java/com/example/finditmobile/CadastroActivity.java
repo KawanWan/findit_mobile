@@ -4,14 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.finditmobile.util.HashUtil;
+import com.example.finditmobile.util.CadastroCallback;
+import com.example.finditmobile.util.DatabaseHelper;
 import com.example.finditmobile.util.MaskEditText;
 
 public class CadastroActivity extends AppCompatActivity {
@@ -27,32 +28,27 @@ public class CadastroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
+        // Inicializar campos
         nomeEditText = findViewById(R.id.nome);
         emailEditText = findViewById(R.id.email);
         senhaEditText = findViewById(R.id.senha);
         confirmSenhaEditText = findViewById(R.id.confirm_senha);
         raEditText = findViewById(R.id.ra);
         whatsappEditText = findViewById(R.id.whatsapp);
-        MaskEditText.insertPhoneMask(whatsappEditText);
+        MaskEditText.insertPhoneMask(whatsappEditText); // Máscara opcional
+
         cadastrarBtn = findViewById(R.id.cadastrar_btn);
         extraLinks = findViewById(R.id.extra_links);
 
         dbHelper = new DatabaseHelper();
 
-        cadastrarBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cadastrarUsuario();
-            }
-        });
+        // Ação do botão cadastrar
+        cadastrarBtn.setOnClickListener(v -> cadastrarUsuario());
 
-        extraLinks.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CadastroActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        // Link para login
+        extraLinks.setOnClickListener(v -> {
+            startActivity(new Intent(CadastroActivity.this, LoginActivity.class));
+            finish();
         });
     }
 
@@ -64,6 +60,7 @@ public class CadastroActivity extends AppCompatActivity {
         String ra = raEditText.getText().toString().trim();
         String whatsapp = whatsappEditText.getText().toString().trim();
 
+        // Validação
         if (TextUtils.isEmpty(nome) || TextUtils.isEmpty(email) || TextUtils.isEmpty(senha) ||
                 TextUtils.isEmpty(confirmSenha) || TextUtils.isEmpty(ra) || TextUtils.isEmpty(whatsapp)) {
             Toast.makeText(this, "Por favor, preencha todos os campos!", Toast.LENGTH_SHORT).show();
@@ -90,22 +87,28 @@ public class CadastroActivity extends AppCompatActivity {
             return;
         }
 
-        String senhaCriptografada = HashUtil.sha256(senha);
+        // Chamada para helper
+        dbHelper.cadastrarUsuarioFirebaseAuth(nome, email, senha, ra, whatsapp, new CadastroCallback() {
+            @Override
+            public void onSuccess() {
+                runOnUiThread(() -> {
+                    Toast.makeText(CadastroActivity.this, "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(CadastroActivity.this, LoginActivity.class));
+                    finish();
+                });
+            }
 
-        dbHelper.cadastrarUsuario(nome, email, senhaCriptografada, ra, whatsapp, task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(this, "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(CadastroActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            } else {
-                Toast.makeText(this, "Erro ao cadastrar. Verifique se o email já foi usado!", Toast.LENGTH_LONG).show();
+            @Override
+            public void onFailure(Exception e) {
+                runOnUiThread(() -> {
+                    Toast.makeText(CadastroActivity.this, "Erro ao cadastrar: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
             }
         });
     }
+
     private boolean isValidPhoneNumber(String phone) {
         phone = phone.replaceAll("[^\\d]", "");
-
         return phone.length() >= 10 && phone.length() <= 11;
     }
 }

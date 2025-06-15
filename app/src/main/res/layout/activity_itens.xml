@@ -12,32 +12,32 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <!-- Toolbar -->
-            <include layout="@layout/toolbar" />
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar" />
 
-            <!-- Conteúdo principal -->
-            <ScrollView
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:fillViewport="true"
                 android:background="#6faaee">
 
                 <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="18dp">
+                    android:padding="16dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="8dp"
-                        android:paddingHorizontal="16dp">
+                        android:paddingHorizontal="8dp"
+                        android:layout_marginTop="8dp">
 
                         <TextView
                             android:id="@+id/textTitulo"
@@ -45,7 +45,7 @@
                             android:layout_height="wrap_content"
                             android:text="Objetos Perdidos"
                             android:textColor="@android:color/white"
-                            android:textSize="28sp"
+                            android:textSize="24sp"
                             android:textStyle="bold"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true" />
@@ -56,69 +56,44 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:contentDescription="Adicionar item"
                             app:srcCompat="@android:drawable/ic_input_add"
-                            app:backgroundTint="@color/purple_500"
-                            android:layout_marginEnd="0dp" />
+                            app:backgroundTint="#F5F5F5"
+                            app:tint="#000000"/>
                     </RelativeLayout>
 
-
-                    <!-- Lista de objetos perdidos (exemplo estático) -->
-                    <LinearLayout
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewItens"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="12dp"
-                        android:background="@android:color/white"
-                        android:layout_marginBottom="12dp"
-                        android:elevation="4dp">
+                        android:layout_marginTop="16dp"
+                        android:clipToPadding="false"
+                        android:paddingBottom="16dp"/>
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="150dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/item_exemplo" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mochila preta"
-                            android:textStyle="bold"
-                            android:textSize="18sp"
-                            android:paddingTop="8dp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Encontrado próximo ao bloco B"
-                            android:textSize="14sp"
-                            android:paddingTop="4dp"
-                            android:textColor="#666" />
-                    </LinearLayout>
-
-                    <!-- Repita esse bloco dinamicamente com RecyclerView futuramente -->
                 </LinearLayout>
-            </ScrollView>
 
-            <!-- Footer -->
-            <include layout="@layout/footer" />
+            </androidx.core.widget.NestedScrollView>
+
+            <include
+                layout="@layout/footer" />
+
         </LinearLayout>
 
-        <!-- Botão flutuante de chat -->
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/openChatButton"
-            android:layout_width="65dp"
-            android:layout_height="60dp"
-            android:text="💬"
-            android:textColor="@android:color/white"
-            android:background="@drawable/rounded_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="50dp"/>
+            android:layout_marginBottom="50dp"
+            app:backgroundTint="#F5F5F5"
+            app:srcCompat="@drawable/ic_baseline_chat_24"
+            app:tint="#000000"/>
 
     </FrameLayout>
 
-    <!-- Navigation Drawer -->
-    <include layout="@layout/drawer_nav_view" />
+    <include
+        android:id="@+id/nav_view"
+        layout="@layout/drawer_nav_view" />
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

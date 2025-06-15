@@ -17,13 +17,13 @@
             android:orientation="vertical"
             android:gravity="center"
             android:background="@drawable/rounded_border">
-            <include layout="@layout/toolbar" />
+
 
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="#6faaee">
+                android:background="#03A9F4">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -34,17 +34,28 @@
                     android:layout_marginTop="80dp">
 
                     <ImageView
-                        android:src="@drawable/login"
-                        android:contentDescription="Logo"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="16dp" />
+                        android:layout_marginBottom="16dp"
+                        android:contentDescription="Logo"
+                        android:src="@drawable/findit_logo_2" />
 
                     <TextView
-                        android:text="Login"
+                        android:id="@+id/textViewAppName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FindIt"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:letterSpacing="0.05"
+                        android:layout_marginTop="0dp" />
+
+                    <TextView
+
                         android:textSize="18sp"
-                        android:textColor="#343a40"
+                        android:textColor="#F4F2F2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -75,26 +86,17 @@
                         android:text="Entrar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="#007bff"
-                        android:textColor="#fff"
+                        android:backgroundTint="#0037FF"
+                        android:textColor="@color/white"
                         android:padding="16dp"/>
 
-                    <TextView
-                        android:id="@+id/esqueci_senha"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Esqueci a senha"
-                        android:textColor="#007bff"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="16dp"
-                        android:clickable="true"/>
 
                     <TextView
                         android:id="@+id/extra_links"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Não tem uma conta? Cadastre-se"
-                        android:textColor="#007bff"
+                        android:textColor="#F8FAFB"
                         android:layout_gravity="center"
                         android:layout_marginTop="16dp"
                         android:clickable="true"/>
@@ -107,6 +109,6 @@
         </LinearLayout>
     </FrameLayout>
 
-    <include layout="@layout/drawer_nav_view" />
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

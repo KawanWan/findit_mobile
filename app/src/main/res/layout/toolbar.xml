@@ -1,45 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/my_toolbar"
+    android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="#0b4462"
+    android:background="#0037FF"
     android:elevation="4dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    app:titleTextColor="@android:color/background_light">
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/findit_logo"
-            android:contentDescription="Logo FindIt" />
-
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="FindIt"
-            android:textColor="@android:color/background_light"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/menu_button"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:padding="16dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_menu"
-        android:contentDescription="Abrir menu" />
-</androidx.appcompat.widget.Toolbar>
+    app:title="FindIt"
+    app:titleTextColor="@android:color/background_light"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />

@@ -7,30 +7,35 @@
     android:layout_height="match_parent"
     tools:context=".CadastroActivity">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_border">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <!-- ScrollView ocupa tudo acima do footer -->
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/rounded_border">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#03A9F4">
 
-            <androidx.core.widget.NestedScrollView
+            <!-- Container geral -->
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:fillViewport="true"
-                android:background="#03A9F4">
+                android:layout_height="wrap_content"
+                android:paddingTop="32dp"
+                android:paddingBottom="16dp">
 
+                <!-- Formulário limitado e centralizado -->
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
+                    android:layout_width="600dp"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:layout_marginTop="32dp">
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
+                    <!-- Logo e título -->
                     <ImageView
                         android:layout_width="120dp"
                         android:layout_height="120dp"
@@ -51,6 +56,7 @@
                         android:layout_gravity="center"
                         android:layout_marginBottom="24dp" />
 
+                    <!-- Campos -->
                     <EditText
                         android:id="@+id/nome"
                         android:layout_width="match_parent"
@@ -58,8 +64,8 @@
                         android:hint="Digite seu nome"
                         android:inputType="text"
                         android:layout_marginBottom="16dp"
-                        android:padding="16dp"
-                        android:background="@drawable/rounded_border"/>
+                        android:background="@drawable/rounded_border"
+                        android:padding="16dp"/>
 
                     <EditText
                         android:id="@+id/email"
@@ -68,8 +74,8 @@
                         android:hint="Digite seu email"
                         android:inputType="textEmailAddress"
                         android:layout_marginBottom="16dp"
-                        android:padding="16dp"
-                        android:background="@drawable/rounded_border"/>
+                        android:background="@drawable/rounded_border"
+                        android:padding="16dp"/>
 
                     <EditText
                         android:id="@+id/senha"
@@ -78,8 +84,8 @@
                         android:hint="Digite sua senha"
                         android:inputType="textPassword"
                         android:layout_marginBottom="16dp"
-                        android:padding="16dp"
-                        android:background="@drawable/rounded_border"/>
+                        android:background="@drawable/rounded_border"
+                        android:padding="16dp"/>
 
                     <EditText
                         android:id="@+id/confirm_senha"
@@ -88,8 +94,8 @@
                         android:hint="Confirme sua senha"
                         android:inputType="textPassword"
                         android:layout_marginBottom="16dp"
-                        android:padding="16dp"
-                        android:background="@drawable/rounded_border"/>
+                        android:background="@drawable/rounded_border"
+                        android:padding="16dp"/>
 
                     <EditText
                         android:id="@+id/ra"
@@ -98,8 +104,8 @@
                         android:hint="Digite seu RA"
                         android:inputType="text"
                         android:layout_marginBottom="16dp"
-                        android:padding="16dp"
-                        android:background="@drawable/rounded_border"/>
+                        android:background="@drawable/rounded_border"
+                        android:padding="16dp"/>
 
                     <EditText
                         android:id="@+id/whatsapp"
@@ -108,8 +114,8 @@
                         android:hint="Digite seu WhatsApp"
                         android:inputType="phone"
                         android:layout_marginBottom="16dp"
-                        android:padding="16dp"
                         android:background="@drawable/rounded_border"
+                        android:padding="16dp"
                         android:maxLength="15"/>
 
                     <Button
@@ -130,17 +136,14 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="16dp"
                         android:clickable="true"/>
-
                 </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
+            </FrameLayout>
+        </ScrollView>
 
-            <include
-                layout="@layout/footer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-    </FrameLayout>
-
+        <!-- Footer fixo abaixo do ScrollView -->
+        <include
+            layout="@layout/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="false">
+
+    <!-- Container horizontal com altura fixa -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:orientation="horizontal">
+
+        <!-- 1) IMAGEM (40%) -->
+        <ImageView
+            android:id="@+id/imageViewItem"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_baseline_image_24"
+            android:background="@android:color/darker_gray"
+            android:contentDescription="Imagem do item" />
+
+        <!-- 2) DIVISÓRIA -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#CCCCCC" />
+
+        <!-- 3) CONTEÚDO (60%) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:background="#FFFFFF">
+
+            <!-- Título -->
+            <TextView
+                android:id="@+id/textViewTituloItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Título do Item"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#0037FF" />
+
+            <!-- Descrição -->
+            <TextView
+                android:id="@+id/textViewDescricaoItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="Descrição do item perdido"
+                android:textSize="14sp"
+                android:textColor="@android:color/black" />
+
+            <!-- Spacer: ocupa espaço restante -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- Botões no canto inferior direito -->
+            <LinearLayout
+                android:id="@+id/layoutAdminButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_marginTop="8dp"
+                android:visibility="gone">
+
+                <!-- Editar: lápis, quadrado 48dp, ícone centralizado -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonEditar"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center"
+                    app:icon="@drawable/ic_baseline_edit_24"
+                    app:iconTint="@android:color/white"
+                    app:iconPadding="0dp"
+                    app:backgroundTint="#4CAF50"
+                    app:cornerRadius="8dp"
+                    android:contentDescription="Editar item" />
+
+                <!-- Excluir: lixeira, quadrado 48dp, ícone centralizado -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonExcluir"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    app:icon="@drawable/ic_baseline_delete_24"
+                    app:iconTint="@android:color/white"
+                    app:iconPadding="0dp"
+                    app:backgroundTint="#F44336"
+                    app:cornerRadius="8dp"
+                    android:contentDescription="Excluir item" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_solicitar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Solicitar"
+                android:visibility="gone"
+                app:cornerRadius="8dp"
+                app:backgroundTint="@color/teal_700"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

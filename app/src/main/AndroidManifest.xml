@@ -26,10 +26,17 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".CadastroActivity" />
         <activity android:name=".ItensActivity" />
+        <activity android:name=".AddItemActivity"
+            android:parentActivityName=".ItensActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ItensActivity" />
+        </activity>
+        <activity android:name=".SolicitarItemActivity" />
         <activity android:name=".SolicitacoesActivity" />
-        <activity android:name=".SolicitarActivity" />
-
+        <activity android:name=".EditarItemActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 </manifest>

@@ -33,4 +33,10 @@
         android:id="@+id/menu_solicitar"
         android:title="Perdi um Objeto"
         android:icon="@android:drawable/ic_menu_add" />
+
+    <item
+        android:id="@+id/menu_logout"
+        android:title="Logout"
+        android:icon="@drawable/ic_logout"
+        android:visible="false" />
 </menu>

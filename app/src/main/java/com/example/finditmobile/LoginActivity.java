@@ -3,7 +3,6 @@ package com.example.finditmobile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,34 +10,29 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.finditmobile.util.HashUtil;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailEditText, senhaEditText;
     private Button loginButton;
-    private TextView esqueciSenhaTextView, cadastroLinkTextView;
-    private DatabaseHelper dbHelper;
+    private TextView cadastroLinkTextView;
+
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Inicializa os componentes da UI
-        initViews();
+        auth = FirebaseAuth.getInstance();
 
-        dbHelper = new DatabaseHelper();
+        initViews();
 
         loginButton.setOnClickListener(view -> loginUsuario());
 
         cadastroLinkTextView.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, CadastroActivity.class));
-        });
-
-        esqueciSenhaTextView.setOnClickListener(v -> {
-            Toast.makeText(this, "Função de recuperação de senha ainda não implementada!", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -46,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.email);
         senhaEditText = findViewById(R.id.senha);
         loginButton = findViewById(R.id.login_btn);
-        esqueciSenhaTextView = findViewById(R.id.esqueci_senha);
         cadastroLinkTextView = findViewById(R.id.extra_links);
     }
 
@@ -56,30 +49,17 @@ public class LoginActivity extends AppCompatActivity {
 
         if (!validarCampos(email, senha)) return;
 
-        String senhaCriptografada = HashUtil.sha256(senha);
-
-        dbHelper.verificarUsuario(email, senhaCriptografada, task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (document != null && document.exists()) {
-                    String senhaSalva = document.getString("senha");
-
-                    if (senhaSalva != null && senhaSalva.equals(senhaCriptografada)) {
+        auth.signInWithEmailAndPassword(email, senha)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
                         Toast.makeText(this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
                     } else {
-                        Toast.makeText(this, "Email ou senha incorretos!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Email ou senha inválidos!", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(this, "Usuário não encontrado!", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(this, "Erro ao acessar o banco de dados!", Toast.LENGTH_SHORT).show();
-            }
-        });
+                });
     }
-
 
     private boolean validarCampos(String email, String senha) {
         if (email.isEmpty() || senha.isEmpty()) {
