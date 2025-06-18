@@ -2,24 +2,31 @@ package com.example.finditmobile;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.os.Handler;
+import android.os.Looper;
+import androidx.annotation.Nullable;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends BaseActivity {
 
+    private static final long TEMPO_SPLASH = 3000L;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        configurarToolbarEDrawer(); // 🔥 Ativa Toolbar + Drawer automático
-
-        // Clique do botão de chat
-        FloatingActionButton chatButton = findViewById(R.id.openChatButton);
-        chatButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ChatbotActivity.class);
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            Intent intent;
+            if (user != null) {
+                intent = new Intent(MainActivity.this, ItensActivity.class);
+            } else {
+                intent = new Intent(MainActivity.this, LoginActivity.class);
+            }
             startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        });
+            finish();
+        }, TEMPO_SPLASH);
     }
 }

@@ -94,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:text="Salvar Alterações"
                         app:cornerRadius="12dp"
-                        app:backgroundTint="@color/teal_700"
+                        app:backgroundTint="#0037FF"
                         android:textColor="@android:color/white"
                         android:layout_marginTop="24dp"/>
 
@@ -122,9 +122,9 @@
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="50dp"
-            app:backgroundTint="@color/purple_500"
+            app:backgroundTint="#FFF"
             app:srcCompat="@drawable/ic_baseline_chat_24"
-            app:tint="@android:color/white"/>
+            app:tint="#000000"/>
 
     </FrameLayout>
 

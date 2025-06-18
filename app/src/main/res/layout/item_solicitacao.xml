@@ -9,19 +9,55 @@
     app:cardElevation="4dp">
 
     <LinearLayout
-        android:padding="12dp"
         android:orientation="vertical"
+        android:padding="12dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF">
 
+        <!-- FOTO -->
+        <ImageView
+            android:id="@+id/iv_solicitacao_foto"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="Foto do item"/>
+
+        <!-- NOME DO OBJETO -->
+        <TextView
+            android:id="@+id/tv_solicitacao_nome_objeto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nome do objeto"
+            android:textColor="#0037FF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+
+        <!-- MENSAGEM / LOCAL -->
         <TextView
             android:id="@+id/tv_solicitacao_mensagem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mensagem do usuário"
-            android:textColor="#000"
+            android:text="Local da Perda: Sala 101"
+            android:textColor="#000000"
             android:textSize="16sp"/>
 
+        <!-- USUÁRIO (admin apenas) -->
+        <TextView
+            android:id="@+id/tv_solicitacao_usuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="De: Fulano"
+            android:textColor="#444444"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:visibility="gone"
+            android:layout_marginTop="4dp"/>
+
+        <!-- STATUS -->
         <TextView
             android:id="@+id/tv_solicitacao_status"
             android:layout_width="match_parent"
@@ -31,14 +67,94 @@
             android:textSize="14sp"
             android:layout_marginTop="4dp"/>
 
+        <!-- RESPOSTA DO ADMIN -->
+        <TextView
+            android:id="@+id/tv_solicitacao_resposta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Resposta do admin"
+            android:textColor="#FF5722"
+            android:textSize="14sp"
+            android:visibility="gone"
+            android:layout_marginTop="2dp"/>
+
+        <!-- DATA -->
         <TextView
             android:id="@+id/tv_solicitacao_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="15/06/2025 18:00"
-            android:textColor="#666"
+            android:textColor="#666666"
             android:textSize="12sp"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="2dp"/>
+
+        <!-- spacer para empurrar ações para baixo -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!-- AÇÕES DO ADMIN (verde/vermelho) -->
+        <LinearLayout
+            android:id="@+id/ll_actions_admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:visibility="gone"
+            android:layout_marginTop="12dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAceitar"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aceitar"
+                app:backgroundTint="#4CAF50"
+                android:textColor="#FFFFFF"
+                app:cornerRadius="8dp"
+                android:layout_marginEnd="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRecusar"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recusar"
+                app:backgroundTint="#F44336"
+                android:textColor="#FFFFFF"
+                app:cornerRadius="8dp"/>
+        </LinearLayout>
+
+        <!-- AÇÕES DO USUÁRIO (editar/excluir) -->
+        <LinearLayout
+            android:id="@+id/ll_actions_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:visibility="gone"
+            android:layout_marginTop="12dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonEditar"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:icon="@drawable/ic_baseline_edit_24"
+                app:backgroundTint="#4CAF50"
+                android:contentDescription="Editar"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonExcluir"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:icon="@drawable/ic_baseline_delete_24"
+                app:backgroundTint="#F44336"
+                android:contentDescription="Excluir"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="#0b4462"
+    android:background="#6faaee"
     android:gravity="bottom"
     android:padding="16dp">
 
@@ -11,7 +11,7 @@
         android:id="@+id/imageViewProfile"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/findit_logo"
+        android:src="@drawable/findit_logo_2"
         android:contentDescription="Logo do usuário"
         android:padding="8dp"/>
 

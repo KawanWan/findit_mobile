@@ -35,6 +35,10 @@
         <activity android:name=".SolicitarItemActivity" />
         <activity android:name=".SolicitacoesActivity" />
         <activity android:name=".EditarItemActivity"/>
+        <activity android:name=".EditarSolicitacaoActivity"
+            android:label="Editar Solicitação"
+            android:parentActivityName=".SolicitacoesActivity" />
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

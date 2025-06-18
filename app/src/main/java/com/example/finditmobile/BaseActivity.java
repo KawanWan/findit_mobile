@@ -84,12 +84,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(this, MainActivity.class));
         } else if (id == R.id.menu_itens) {
             startActivity(new Intent(this, ItensActivity.class));
-        } else if (id == R.id.menu_solicitar) {
-            startActivity(new Intent(this, SolicitarItemActivity.class));
         } else if (id == R.id.menu_solicitacoes) {
             startActivity(new Intent(this, SolicitacoesActivity.class));
-        } else if (id == R.id.menu_about) {
-            Toast.makeText(this, "Sobre selecionado", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.menu_login) {
             startActivity(new Intent(this, LoginActivity.class));
         } else if (id == R.id.menu_signup) {
@@ -97,8 +93,14 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.menu_logout) {
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(this, "Logout realizado", Toast.LENGTH_SHORT).show();
-            recreate();
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
+            finish();
         }
+
 
         return true;
     }
