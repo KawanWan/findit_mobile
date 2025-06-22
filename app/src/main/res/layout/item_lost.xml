@@ -62,6 +62,27 @@
                 android:textSize="14sp"
                 android:textColor="@android:color/black" />
 
+            <TextView
+                android:id="@+id/textViewOndeEncontrado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Encontrado em: Sala 101"
+                android:textSize="14sp"
+                android:textColor="#6faaee"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/textViewLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Localização: "
+                android:textColor="#6faaee"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:visibility="gone"/>
+
             <!-- Spacer: ocupa espaço restante -->
             <View
                 android:layout_width="match_parent"

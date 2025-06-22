@@ -59,6 +59,8 @@
                         android:inputType="text"
                         android:layout_marginBottom="16dp"
                         android:padding="16dp"
+                        android:textColor="#000000"
+                        android:textColorHint="#666666"
                         android:background="@drawable/rounded_border"/>
 
                     <EditText
@@ -69,6 +71,8 @@
                         android:inputType="textEmailAddress"
                         android:layout_marginBottom="16dp"
                         android:padding="16dp"
+                        android:textColor="#000000"
+                        android:textColorHint="#666666"
                         android:background="@drawable/rounded_border"/>
 
                     <EditText
@@ -79,6 +83,8 @@
                         android:inputType="textPassword"
                         android:layout_marginBottom="16dp"
                         android:padding="16dp"
+                        android:textColor="#000000"
+                        android:textColorHint="#666666"
                         android:background="@drawable/rounded_border"/>
 
                     <EditText
@@ -89,6 +95,8 @@
                         android:inputType="textPassword"
                         android:layout_marginBottom="16dp"
                         android:padding="16dp"
+                        android:textColor="#000000"
+                        android:textColorHint="#666666"
                         android:background="@drawable/rounded_border"/>
 
                     <EditText
@@ -99,6 +107,8 @@
                         android:inputType="text"
                         android:layout_marginBottom="16dp"
                         android:padding="16dp"
+                        android:textColor="#000000"
+                        android:textColorHint="#666666"
                         android:background="@drawable/rounded_border"/>
 
                     <EditText
@@ -110,7 +120,9 @@
                         android:layout_marginBottom="16dp"
                         android:padding="16dp"
                         android:background="@drawable/rounded_border"
-                        android:maxLength="15"/>
+                        android:maxLength="15"
+                        android:textColor="#000000"
+                        android:textColorHint="#666666"/>
 
                     <Button
                         android:id="@+id/cadastrar_btn"

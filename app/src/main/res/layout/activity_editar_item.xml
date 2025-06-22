@@ -1,135 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app   ="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout_edit"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditarItemActivity">
 
-    <FrameLayout
+<FrameLayout
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#6faaee"
+        android:padding="16dp"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
 
-            <include
-                android:id="@+id/toolbar_edit"
-                layout="@layout/toolbar"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Editar Item Perdido"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="16dp"/>
 
-            <ScrollView
+            <ImageView
+                android:id="@+id/imageViewPreviewEdit"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="#6faaee"
-                android:padding="16dp"
-                android:fillViewport="true">
+                android:layout_height="200dp"
+                android:layout_marginBottom="12dp"
+                android:background="@android:color/white"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_baseline_image_24"
+                android:contentDescription="Clique para escolher imagem"/>
 
-                <LinearLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(Clique na imagem para selecionar um arquivo)"
+                android:textSize="12sp"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="16dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:hint="Título"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeColor="#0037FF"
+                app:hintTextColor="@color/text_input_hint_color">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextTituloEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                    android:textColor="#222222"
+                    android:textSize="16sp"
+                    android:hint="Mochila"
+                    android:textColorHint="#666666"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Editar Item Perdido"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/white"
-                        android:layout_marginBottom="16dp"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:hint="Descrição"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeColor="#0037FF"
+                app:hintTextColor="@color/text_input_hint_color">
 
-                    <ImageView
-                        android:id="@+id/imageViewPreviewEdit"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_marginBottom="12dp"
-                        android:background="@android:color/white"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_baseline_image_24"
-                        android:contentDescription="Clique para escolher imagem"/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextDescricaoEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:lines="3"
+                    android:maxLines="5"
+                    android:textColor="#222222"
+                    android:textSize="16sp"
+                    android:hint="Mochila Militar"
+                    android:textColorHint="#666666"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="(Clique na imagem para selecionar um arquivo)"
-                        android:textSize="12sp"
-                        android:textColor="@android:color/white"
-                        android:layout_marginBottom="16dp"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:hint="Onde foi encontrado?"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeColor="#0037FF"
+                app:hintTextColor="@color/text_input_hint_color">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Título"
-                        android:layout_marginBottom="12dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextOndeEncontradoEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="#222222"
+                    android:textSize="16sp"
+                    android:textColorHint="#666666"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editTextTituloEdit"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:hint="Localização (opcional)"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeColor="#0037FF"
+                app:hintTextColor="@color/text_input_hint_color">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Descrição"
-                        android:layout_marginBottom="12dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextLocalizacaoEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="#222222"
+                    android:textSize="16sp"
+                    android:textColorHint="#666666"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editTextDescricaoEdit"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textMultiLine"
-                            android:lines="3"
-                            android:maxLines="5"/>
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonSalvarEdit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Salvar Alterações"
-                        app:cornerRadius="12dp"
-                        app:backgroundTint="#0037FF"
-                        android:textColor="@android:color/white"
-                        android:layout_marginTop="24dp"/>
-
-                </LinearLayout>
-            </ScrollView>
-
-            <include
-                android:id="@+id/footer_edit"
-                layout="@layout/footer"/>
-
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSalvarEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Salvar Alterações"
+                android:layout_marginTop="24dp"
+                app:backgroundTint="#0037FF"
+                app:cornerRadius="12dp"
+                android:textColor="@android:color/white"/>
         </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/openChatButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="50dp"
-            app:backgroundTint="#FFF"
-            app:srcCompat="@drawable/ic_baseline_chat_24"
-            app:tint="#000000"/>
-
-    </FrameLayout>
+    </ScrollView>
 
     <include
-        android:id="@+id/navigation_view_edit"
-        layout="@layout/drawer_nav_view"/>
+        layout="@layout/footer"/>
 
-</androidx.drawerlayout.widget.DrawerLayout>
+</LinearLayout>
+
+<ProgressBar
+    android:id="@+id/progressBar"
+    style="?android:attr/progressBarStyleLarge"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:visibility="gone"/>
+
+<com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/openChatButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:layout_margin="16dp"
+    app:backgroundTint="#FFFFFF"
+    app:srcCompat="@drawable/ic_baseline_chat_24"
+    app:tint="#000000"/>
+
+</FrameLayout>
+
+<include
+android:id="@+id/nav_view"
+layout="@layout/drawer_nav_view"/>
+
+    </androidx.drawerlayout.widget.DrawerLayout>

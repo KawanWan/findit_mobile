@@ -48,6 +48,8 @@ public class ItemPerdidoAdapter extends RecyclerView.Adapter<ItemPerdidoAdapter.
         ImageView imageViewItem;
         TextView textViewTituloItem;
         TextView textViewDescricaoItem;
+        TextView textViewOndeEncontrado;
+        TextView textViewLocation;
         LinearLayout layoutAdminButtons;
         MaterialButton buttonEditar;
         MaterialButton buttonExcluir;
@@ -58,6 +60,8 @@ public class ItemPerdidoAdapter extends RecyclerView.Adapter<ItemPerdidoAdapter.
             imageViewItem        = itemView.findViewById(R.id.imageViewItem);
             textViewTituloItem   = itemView.findViewById(R.id.textViewTituloItem);
             textViewDescricaoItem= itemView.findViewById(R.id.textViewDescricaoItem);
+            textViewOndeEncontrado  = itemView.findViewById(R.id.textViewOndeEncontrado);
+            textViewLocation     = itemView.findViewById(R.id.textViewLocation);
             layoutAdminButtons   = itemView.findViewById(R.id.layoutAdminButtons);
             buttonEditar         = itemView.findViewById(R.id.buttonEditar);
             buttonExcluir        = itemView.findViewById(R.id.buttonExcluir);
@@ -76,9 +80,38 @@ public class ItemPerdidoAdapter extends RecyclerView.Adapter<ItemPerdidoAdapter.
     public void onBindViewHolder(@NonNull ItemPerdidoAdapter.ViewHolder holder, int position) {
         ItemPerdido item = itemList.get(position);
 
-        // Preenche dados básicos
         holder.textViewTituloItem.setText(item.getTitulo());
         holder.textViewDescricaoItem.setText(item.getDescricao());
+
+        if (isAdmin) {
+            // localização
+            String location = item.getLocalizacao();
+            if (location != null && !location.isEmpty()) {
+                holder.textViewLocation.setText("Localização: " + location);
+                holder.textViewLocation.setVisibility(View.VISIBLE);
+            } else {
+                holder.textViewLocation.setVisibility(View.GONE);
+            }
+
+            // onde foi encontrado
+            String encontrado = item.getOndeEncontrado();
+            if (encontrado != null && !encontrado.isEmpty()) {
+                holder.textViewOndeEncontrado.setText("Encontrado em: " + encontrado);
+                holder.textViewOndeEncontrado.setVisibility(View.VISIBLE);
+            } else {
+                holder.textViewOndeEncontrado.setVisibility(View.GONE);
+            }
+
+            holder.layoutAdminButtons.setVisibility(View.VISIBLE);
+            holder.buttonSolicitar.setVisibility(View.GONE);
+        } else {
+            holder.textViewLocation.setVisibility(View.GONE);
+            holder.textViewOndeEncontrado.setVisibility(View.GONE);
+            holder.layoutAdminButtons.setVisibility(View.GONE);
+            holder.buttonSolicitar.setVisibility(View.VISIBLE);
+        }
+
+
         if (item.getImageUrl() != null && !item.getImageUrl().isEmpty()) {
             Glide.with(context)
                     .load(item.getImageUrl())
@@ -88,18 +121,8 @@ public class ItemPerdidoAdapter extends RecyclerView.Adapter<ItemPerdidoAdapter.
             holder.imageViewItem.setImageResource(R.drawable.ic_baseline_image_24);
         }
 
-        // Animação de entrada
         Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
         holder.itemView.startAnimation(animation);
-
-        // Mostra botões de admin ou de solicitar
-        if (isAdmin) {
-            holder.layoutAdminButtons.setVisibility(View.VISIBLE);
-            holder.buttonSolicitar.setVisibility(View.GONE);
-        } else {
-            holder.layoutAdminButtons.setVisibility(View.GONE);
-            holder.buttonSolicitar.setVisibility(View.VISIBLE);
-        }
 
         // Ação de Editar (admin)
         holder.buttonEditar.setOnClickListener(v -> {

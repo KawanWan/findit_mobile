@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Quando em foco, deixe um pouco mais escuro -->
+    <item android:color="#222222" android:state_focused="true"/>
+    <!-- Estado normal (collapsed ou expanded) -->
+    <item android:color="#000000"/>
+</selector>

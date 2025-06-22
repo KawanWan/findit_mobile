@@ -4,9 +4,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -15,14 +13,8 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,19 +26,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class AddItemActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class AddItemActivity extends BaseActivity {
 
     private static final String PASTA_IMAGENS = "itens_perdidos_images";
-
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
-    private Toolbar toolbar;
 
     private ImageView imageViewPreview;
     private TextInputEditText editTextTitulo;
     private TextInputEditText editTextDescricao;
-    private Button buttonSalvar;
+    private TextInputEditText editTextLocation;
+    private TextInputEditText editTextOndeEncontrado;
+    private MaterialButton buttonSalvar;
     private ProgressBar progressBar;
 
     private Uri imageUriSelecionada;
@@ -62,6 +51,10 @@ public class AddItemActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
+        // 1) configura toolbar e drawer herdados do BaseActivity
+        configurarToolbarEDrawer();
+
+        // 2) launcher de imagem
         escolherImagemLauncher = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
                 (ActivityResultCallback<Uri>) uri -> {
@@ -72,6 +65,7 @@ public class AddItemActivity extends AppCompatActivity
                 }
         );
 
+        // 3) verifica login e permissão admin
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser == null) {
@@ -82,17 +76,36 @@ public class AddItemActivity extends AppCompatActivity
             return;
         }
 
-        initViewsAndListeners();
+        // 4) bind de views
+        imageViewPreview       = findViewById(R.id.imageViewPreview);
+        editTextTitulo         = findViewById(R.id.editTextTitulo);
+        editTextDescricao      = findViewById(R.id.editTextDescricao);
+        editTextLocation       = findViewById(R.id.editTextLocation);
+        editTextOndeEncontrado = findViewById(R.id.editTextOndeEncontrado);
+        buttonSalvar           = findViewById(R.id.buttonSalvar);
+        progressBar            = findViewById(R.id.progressBar);
 
-        progressBar.setVisibility(View.VISIBLE);
+        imageViewPreview.setOnClickListener(v ->
+                escolherImagemLauncher.launch("image/*")
+        );
 
+        buttonSalvar.setOnClickListener(v ->
+                salvarNovoItemComImagem()
+        );
+
+        // 5) instâncias do Firestore e Storage
+        firestore        = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance()
+                .getReference()
+                .child(PASTA_IMAGENS);
+
+        // 6) checa permissão admin antes de prosseguir
+        progressBar.setVisibility(ProgressBar.VISIBLE);
         currentUser.getIdToken(false)
                 .addOnSuccessListener(result -> {
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(ProgressBar.GONE);
                     Boolean isAdmin = (Boolean) result.getClaims().get("isAdmin");
-                    if (isAdmin != null && isAdmin) {
-                        // Pode prosseguir
-                    } else {
+                    if (isAdmin == null || !isAdmin) {
                         Toast.makeText(this,
                                 "Você não tem permissão para adicionar itens.",
                                 Toast.LENGTH_LONG).show();
@@ -100,7 +113,7 @@ public class AddItemActivity extends AppCompatActivity
                     }
                 })
                 .addOnFailureListener(e -> {
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(ProgressBar.GONE);
                     Toast.makeText(this,
                             "Erro ao verificar permissões: " + e.getMessage(),
                             Toast.LENGTH_LONG).show();
@@ -108,66 +121,17 @@ public class AddItemActivity extends AppCompatActivity
                 });
     }
 
-    private void initViewsAndListeners() {
-        drawerLayout = findViewById(R.id.drawer_layout_add);
-        navigationView = findViewById(R.id.navigation_view_add);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        toolbar = findViewById(R.id.toolbar_add);
-        setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close
-        );
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        firestore = FirebaseFirestore.getInstance();
-        storageReference = FirebaseStorage.getInstance()
-                .getReference()
-                .child(PASTA_IMAGENS);
-
-        imageViewPreview = findViewById(R.id.imageViewPreview);
-        editTextTitulo = findViewById(R.id.editTextTitulo);
-        editTextDescricao = findViewById(R.id.editTextDescricao);
-        buttonSalvar = findViewById(R.id.buttonSalvar);
-        progressBar = findViewById(R.id.progressBar);
-
-        imageViewPreview.setOnClickListener(v ->
-                escolherImagemLauncher.launch("image/*")
-        );
-
-        buttonSalvar.setOnClickListener(v -> salvarNovoItemComImagem());
-
-        findViewById(R.id.openChatButton).setOnClickListener(v -> {
-            Intent intent = new Intent(AddItemActivity.this, ChatbotActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        });
-
-        getOnBackPressedDispatcher().addCallback(this,
-                new OnBackPressedCallback(true) {
-                    @Override
-                    public void handleOnBackPressed() {
-                        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                            drawerLayout.closeDrawer(GravityCompat.START);
-                        } else {
-                            setEnabled(false);
-                            onBackPressed();
-                        }
-                    }
-                });
-    }
-
     private void salvarNovoItemComImagem() {
-        String titulo = editTextTitulo.getText() != null
+        String titulo         = editTextTitulo.getText() != null
                 ? editTextTitulo.getText().toString().trim() : "";
-        String descricao = editTextDescricao.getText() != null
+        String descricao      = editTextDescricao.getText() != null
                 ? editTextDescricao.getText().toString().trim() : "";
+        String location       = editTextLocation.getText() != null
+                ? editTextLocation.getText().toString().trim() : "";
+        String ondeEncontrado = editTextOndeEncontrado.getText() != null
+                ? editTextOndeEncontrado.getText().toString().trim() : "";
 
+        // validações
         if (titulo.isEmpty()) {
             editTextTitulo.setError("Informe um título");
             editTextTitulo.requestFocus();
@@ -178,6 +142,11 @@ public class AddItemActivity extends AppCompatActivity
             editTextDescricao.requestFocus();
             return;
         }
+        if (ondeEncontrado.isEmpty()) {
+            editTextOndeEncontrado.setError("Informe onde foi encontrado");
+            editTextOndeEncontrado.requestFocus();
+            return;
+        }
         if (imageUriSelecionada == null) {
             Toast.makeText(this,
                     "Selecione uma imagem para o item",
@@ -185,33 +154,66 @@ public class AddItemActivity extends AppCompatActivity
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(ProgressBar.VISIBLE);
 
-        String extensao = pegarExtensaoDoArquivo(imageUriSelecionada);
+        String extensao    = pegarExtensaoDoArquivo(imageUriSelecionada);
         String nomeArquivo = UUID.randomUUID() + "." + extensao;
 
         StorageReference imagemRef = storageReference.child(nomeArquivo);
         imagemRef.putFile(imageUriSelecionada)
-                .addOnSuccessListener(taskSnapshot ->
+                .addOnSuccessListener(task ->
                         imagemRef.getDownloadUrl()
-                                .addOnSuccessListener(uriDownload -> {
-                                    criarDocumentoItemPerdido(
-                                            titulo,
-                                            descricao,
-                                            uriDownload.toString()
-                                    );
-                                })
+                                .addOnSuccessListener(uri ->
+                                        criarDocumentoItemPerdido(
+                                                titulo, descricao,
+                                                uri.toString(),
+                                                location, ondeEncontrado
+                                        )
+                                )
                                 .addOnFailureListener(e -> {
-                                    progressBar.setVisibility(View.GONE);
+                                    progressBar.setVisibility(ProgressBar.GONE);
                                     Toast.makeText(this,
                                             "Erro ao obter URL da imagem: " + e.getMessage(),
                                             Toast.LENGTH_LONG).show();
                                 })
                 )
                 .addOnFailureListener(e -> {
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(ProgressBar.GONE);
                     Toast.makeText(this,
                             "Falha no upload da imagem: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                });
+    }
+
+    private void criarDocumentoItemPerdido(
+            String titulo,
+            String descricao,
+            String downloadUrl,
+            String location,
+            String ondeEncontrado
+    ) {
+        Map<String, Object> novoItem = new HashMap<>();
+        novoItem.put("titulo", titulo);
+        novoItem.put("descricao", descricao);
+        novoItem.put("imageUrl", downloadUrl);
+        if (!location.isEmpty()) {
+            novoItem.put("localizacao", location);
+        }
+        novoItem.put("ondeEncontrado", ondeEncontrado);
+
+        firestore.collection("itens_perdidos")
+                .add(novoItem)
+                .addOnSuccessListener(doc -> {
+                    progressBar.setVisibility(ProgressBar.GONE);
+                    Toast.makeText(this,
+                            "Item cadastrado com sucesso!",
+                            Toast.LENGTH_SHORT).show();
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    progressBar.setVisibility(ProgressBar.GONE);
+                    Toast.makeText(this,
+                            "Erro ao cadastrar item: " + e.getMessage(),
                             Toast.LENGTH_LONG).show();
                 });
     }
@@ -220,35 +222,5 @@ public class AddItemActivity extends AppCompatActivity
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(uri));
-    }
-
-    private void criarDocumentoItemPerdido(String titulo, String descricao, String downloadUrl) {
-        Map<String, Object> novoItem = new HashMap<>();
-        novoItem.put("titulo", titulo);
-        novoItem.put("descricao", descricao);
-        novoItem.put("imageUrl", downloadUrl);
-
-        firestore.collection("itens_perdidos")
-                .add(novoItem)
-                .addOnSuccessListener(doc -> {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(this,
-                            "Item cadastrado com sucesso!",
-                            Toast.LENGTH_SHORT).show();
-                    finish();
-                })
-                .addOnFailureListener(e -> {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(this,
-                            "Erro ao cadastrar item: " + e.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                });
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(
-            @NonNull android.view.MenuItem item) {
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
     }
 }

@@ -4,14 +4,20 @@
         <item
             android:id="@+id/menu_home"
             android:title="Início"
+            android:textColor="#000000"
+            android:textColorHint="#666666"
             android:icon="@android:drawable/ic_menu_view" />
         <item
             android:id="@+id/menu_itens"
             android:title="Itens"
+            android:textColor="#000000"
+            android:textColorHint="#666666"
             android:icon="@android:drawable/ic_menu_add" />
         <item
             android:id="@+id/menu_solicitacoes"
             android:title="Solicitações"
+            android:textColor="#000000"
+            android:textColorHint="#666666"
             android:icon="@android:drawable/ic_menu_add" />
     </group>
 
@@ -19,10 +25,14 @@
         <item
             android:id="@+id/menu_login"
             android:title="Login"
+            android:textColor="#000000"
+            android:textColorHint="#666666"
             android:icon="@android:drawable/ic_menu_send" />
         <item
             android:id="@+id/menu_signup"
             android:title="Cadastro"
+            android:textColor="#000000"
+            android:textColorHint="#666666"
             android:icon="@android:drawable/ic_menu_add" />
     </group>
 
@@ -36,6 +46,8 @@
         <item
             android:id="@+id/menu_logout"
             android:title="Logout"
+            android:textColor="#000000"
+            android:textColorHint="#666666"
             android:icon="@drawable/ic_logout"
             android:visible="false" />
     </group>
