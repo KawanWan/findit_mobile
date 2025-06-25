@@ -33,23 +33,25 @@ public class SolicitacaoAdapter
         void onDelete(Solicitacao solicitacao);
     }
 
-    private Context context;
-    private List<Solicitacao> lista;
-    private boolean isAdmin;
-    private OnActionListener adminListener;
-    private OnUserActionListener userListener;
-    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private final Context context;
+    private final List<Solicitacao> lista;
+    private final boolean isAdmin;
+    private final OnActionListener adminListener;
+    private final OnUserActionListener userListener;
+    private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
-    // caches
-    private Map<String, String> cacheNomeItem = new HashMap<>();
-    private Map<String, String> cacheImageUrl = new HashMap<>();
-    private Map<String, String> cacheUserName = new HashMap<>();
+    // caches para evitar múltiplas leituras
+    private final Map<String, String> cacheNomeItem  = new HashMap<>();
+    private final Map<String, String> cacheImageUrl  = new HashMap<>();
+    private final Map<String, String> cacheUserName  = new HashMap<>();
 
-    public SolicitacaoAdapter(Context ctx,
-                              List<Solicitacao> lista,
-                              boolean isAdmin,
-                              OnActionListener adminListener,
-                              OnUserActionListener userListener) {
+    public SolicitacaoAdapter(
+            Context ctx,
+            List<Solicitacao> lista,
+            boolean isAdmin,
+            OnActionListener adminListener,
+            OnUserActionListener userListener
+    ) {
         this.context       = ctx;
         this.lista         = lista;
         this.isAdmin       = isAdmin;
@@ -58,10 +60,12 @@ public class SolicitacaoAdapter
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivFoto;
-        TextView  tvNomeObjeto, tvUsuario, tvMensagem, tvStatus, tvResposta, tvData;
-        LinearLayout llAdmin, llUser;
-        MaterialButton btnAceitar, btnRecusar, btnEditar, btnExcluir;
+        ImageView     ivFoto;
+        TextView      tvNomeObjeto, tvUsuario, tvMensagem,
+                tvStatus, tvResposta, tvData;
+        LinearLayout  llAdmin, llUser;
+        MaterialButton btnAceitar, btnRecusar,
+                btnEditar, btnExcluir;
 
         public ViewHolder(@NonNull View v) {
             super(v);
@@ -83,8 +87,7 @@ public class SolicitacaoAdapter
         }
     }
 
-    @NonNull
-    @Override
+    @NonNull @Override
     public ViewHolder onCreateViewHolder(
             @NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context)
@@ -95,11 +98,11 @@ public class SolicitacaoAdapter
     @Override
     public void onBindViewHolder(
             @NonNull final ViewHolder holder,
-            int position) {
-
+            int position
+    ) {
         Solicitacao s = lista.get(position);
 
-        // usuário (apenas admin)
+        // 1) Usuário (apenas admin vê quem enviou)
         if (isAdmin) {
             holder.tvUsuario.setVisibility(View.VISIBLE);
             String uid = s.getUserId();
@@ -111,12 +114,8 @@ public class SolicitacaoAdapter
                         .document(uid)
                         .get()
                         .addOnSuccessListener(doc -> {
-                            String nome = doc.exists()
-                                    ? doc.getString("nome")
-                                    : null;
-                            if (nome == null || nome.isEmpty()) {
-                                nome = "Nome indisponível";
-                            }
+                            String nome = doc.getString("nome");
+                            if (nome == null || nome.isEmpty()) nome = "—";
                             cacheUserName.put(uid, nome);
                             holder.tvUsuario.setText("De: " + nome);
                         })
@@ -128,13 +127,11 @@ public class SolicitacaoAdapter
             holder.tvUsuario.setVisibility(View.GONE);
         }
 
-        // mensagem/local
+        // 2) Mensagem e status
         holder.tvMensagem.setText("Local da Perda: " + s.getMensagem());
-
-        // status
         holder.tvStatus.setText("Status: " + s.getStatus());
 
-        // respostaAdmin
+        // 3) Resposta do admin (se houver)
         String resp = s.getRespostaAdmin();
         if (resp != null && !resp.isEmpty()) {
             holder.tvResposta.setVisibility(View.VISIBLE);
@@ -143,19 +140,20 @@ public class SolicitacaoAdapter
             holder.tvResposta.setVisibility(View.GONE);
         }
 
-        // data
+        // 4) Data
         if (s.getTimestamp() != null) {
             holder.tvData.setText(
-                    DateFormat.getDateTimeInstance().format(s.getTimestamp())
+                    DateFormat.getDateTimeInstance()
+                            .format(s.getTimestamp())
             );
         } else {
             holder.tvData.setText("");
         }
 
-        // nome + imagem do item
+        // 5) Nome e imagem do item
         String itemId = s.getItemId();
         holder.tvNomeObjeto.setText(
-                cacheNomeItem.getOrDefault(itemId, "Carregando...")
+                cacheNomeItem.getOrDefault(itemId, "Carregando…")
         );
         holder.ivFoto.setImageResource(R.drawable.placeholder);
         if (cacheImageUrl.containsKey(itemId)) {
@@ -170,27 +168,25 @@ public class SolicitacaoAdapter
                     .document(itemId)
                     .get()
                     .addOnSuccessListener(doc -> {
-                        String nome  = doc.exists()
-                                ? doc.getString("titulo")
-                                : "Item removido";
-                        String image = doc.exists()
-                                ? doc.getString("imageUrl")
-                                : null;
+                        String nome  = doc.getString("titulo");
+                        String img   = doc.getString("imageUrl");
+                        if (nome == null) nome = "—";
                         cacheNomeItem.put(itemId, nome);
-                        if (image != null) cacheImageUrl.put(itemId, image);
+                        if (img != null) cacheImageUrl.put(itemId, img);
                         holder.tvNomeObjeto.setText(nome);
-                        if (image != null) {
+                        if (img != null) {
                             Glide.with(context)
-                                    .load(image)
+                                    .load(img)
                                     .centerCrop()
                                     .into(holder.ivFoto);
                         }
                     })
                     .addOnFailureListener(e ->
-                            holder.tvNomeObjeto.setText("Erro"));
+                            holder.tvNomeObjeto.setText("Erro")
+                    );
         }
 
-        // ações admin
+        // 6) Ações do admin (aceitar/recusar)
         if (isAdmin && "pendente".equalsIgnoreCase(s.getStatus())) {
             holder.llAdmin.setVisibility(View.VISIBLE);
             holder.btnAceitar.setOnClickListener(v ->
@@ -203,7 +199,7 @@ public class SolicitacaoAdapter
             holder.llAdmin.setVisibility(View.GONE);
         }
 
-        // ações usuário
+        // 7) Ações do usuário (editar/excluir)
         if (!isAdmin) {
             holder.llUser.setVisibility(View.VISIBLE);
             holder.btnEditar.setOnClickListener(v ->

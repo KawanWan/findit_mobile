@@ -18,3 +18,8 @@ node_modules
 scripts/serviceAccountKey.json
 scripts/setAdminClaim.js
 findit_mobile.git
+# Firebase Functions
+/functions/node_modules/
+/functions/.firebase/
+/functions/lib/
+/functions/package-lock.json

@@ -19,6 +19,13 @@
             android:textColor="#000000"
             android:textColorHint="#666666"
             android:icon="@android:drawable/ic_menu_add" />
+
+        <item
+            android:id="@+id/menu_notificacoes"
+            android:title="Notificações"
+            android:textColor="#000000"
+            android:textColorHint="#666666"
+            android:icon="@android:drawable/ic_menu_add" />
     </group>
 
     <group android:id="@+id/group_auth">

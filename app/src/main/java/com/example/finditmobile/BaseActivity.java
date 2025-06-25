@@ -17,6 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -36,20 +37,26 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close
-        );
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+        if (drawerLayout != null && navigationView != null) {
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawerLayout, toolbar,
+                    R.string.navigation_drawer_open,
+                    R.string.navigation_drawer_close
+            );
+            drawerLayout.addDrawerListener(toggle);
+            toggle.syncState();
 
-        configurarMenuNavigation();
-        navigationView.setNavigationItemSelectedListener(this);
+            configurarMenuNavigation();
+            navigationView.setNavigationItemSelectedListener(this);
+
+            atualizarBadgeNotificacoes();
+        }
     }
 
     private void configurarMenuNavigation() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (navigationView == null) return;
 
         View headerView = navigationView.getHeaderView(0);
         TextView userName = headerView.findViewById(R.id.textViewUserName);
@@ -75,6 +82,43 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    private void atualizarBadgeNotificacoes() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (navigationView == null) return;
+
+        if (currentUser == null) return;
+
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(currentUser.getUid())
+                .collection("notificacoes")
+                .whereEqualTo("lida", false)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    int count = queryDocumentSnapshots.size();
+                    if (count > 0) {
+                        View actionView = navigationView.getMenu()
+                                .findItem(R.id.menu_notificacoes)
+                                .setActionView(R.layout.menu_badge_layout)
+                                .getActionView();
+
+                        TextView badgeCounter = actionView.findViewById(R.id.badge_counter);
+                        badgeCounter.setText(String.valueOf(count));
+                        badgeCounter.setVisibility(View.VISIBLE);
+
+                        actionView.setOnClickListener(v -> {
+                            startActivity(new Intent(this, NotificacoesActivity.class));
+                            drawerLayout.closeDrawer(GravityCompat.START);
+                        });
+                    } else {
+                        navigationView.getMenu()
+                                .findItem(R.id.menu_notificacoes)
+                                .setActionView(null);
+                    }
+                });
+    }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -86,6 +130,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(this, ItensActivity.class));
         } else if (id == R.id.menu_solicitacoes) {
             startActivity(new Intent(this, SolicitacoesActivity.class));
+        } else if (id == R.id.menu_notificacoes) {
+            startActivity(new Intent(this, NotificacoesActivity.class));
         } else if (id == R.id.menu_login) {
             startActivity(new Intent(this, LoginActivity.class));
         } else if (id == R.id.menu_signup) {
@@ -97,10 +143,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-
             finish();
         }
-
 
         return true;
     }

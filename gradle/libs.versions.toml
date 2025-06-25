@@ -14,6 +14,7 @@ firebaseDatabase = "21.0.0"
 materialVersion = "1.8.0"
 firebaseStorage = "21.0.2"
 firebaseAuthVersion = "23.2.1"
+firebaseMessaging = "24.1.1"
 
 [libraries]
 firebase-firestore = { module = "com.google.firebase:firebase-firestore", version.ref = "firebaseFirestore" }
@@ -30,6 +31,7 @@ firebase-database = { group = "com.google.firebase", name = "firebase-database",
 material-v180 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 google-firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuthVersion" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
